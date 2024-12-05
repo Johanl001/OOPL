@@ -1,140 +1,132 @@
+/*oop3:Design a C++ Class ‘Complex ‘ with data members for real and imaginary part. Provide default and parameterized constructors. Write a program to perform arithmetic operations of two complex numbers using operator overloading (using either member functions or friend functions).*/
 #include<iostream>
 using namespace std;
-int i, n;
-class student
-{
-public:
-int rno;
-string name, add;
-int Q1, Q2, Q3, Q4, Q5;
-void accept();
-void display();
-void Lsearch();
-void Bsearch();
-}a[100];
 
-void student::accept()
+class Complex 
 {
-cout<<"\nEnter the student name ,address , rollno: ";
-cin>>name>>add>>rno;	
+   int r, img;
+   public:
+      Complex() 
+      {
+          r = 0;
+          img = 0;
+      }
+      Complex(int rr, int im) 
+      {
+          r = rr;
+          img = im;
+      }
+      
+      
+      void display() 
+      {
+          if(img >= 0)
+          {
+              cout << r << "+" << img << "i" << endl;
+          }
+          else
+          {
+              cout << r << " " << img << "i" << endl;
+          }
+      } 
+
+      Complex operator + (Complex);
+      friend Complex operator - (Complex, Complex); 
+      Complex operator * (Complex);
+      Complex operator / (Complex);
+};
+
+// Overloading the '+' operator
+Complex Complex::operator + (Complex c2)
+{
+    Complex c3;
+    c3.r = r + c2.r;
+    c3.img = img + c2.img;
+    return c3;
 }
 
-void student::display()
+// Overloading the '-' operator
+Complex operator - (Complex c1, Complex c2)
 {
-cout << "\n" << name << "\t" << rno << "\t" << add ;
+    Complex c3;
+    c3.r = c1.r - c2.r;
+    c3.img = c1.img - c2.img;
+    return c3;
 }
-void student::Lsearch() 
+
+// Overloading the '*' operator
+Complex Complex::operator * (Complex c2)  
 {
-int r;
-bool found = 0;
-cout << "Enter the roll no. you want to search:";
-cin >> r;
-for (i = 0; i < n; i++) 
+    Complex c3;
+    c3.r = r * c2.r - img * c2.img;
+    c3.img = r * c2.img + img * c2.r;
+    return c3;
+}     
+
+// Overloading the '/' operator
+Complex Complex::operator / (Complex c2)
 {
- if (a[i].rno == r) 
-{ 
-found = 1;
-cout << "\nRoll No. " << r << " was present in training program.";
-break;
+    Complex c3;
+    int dr = c2.r * c2.r + c2.img * c2.img;
+    c3.r = (r * c2.r + img * c2.img) / dr;
+    c3.img = (-r * c2.img + img * c2.r) / dr;
+    return c3;
 }
-}
-if (!found) 
-{
-cout << "\nRoll No. " << r << "  not present in training program. ";;
-}
-}
-void student::Bsearch()
-{
-int r;
-cout << "Enter  roll no. you want to search: ";
-cin >> r;    	
-for(i = 0; i < n-1; i++)
-{
-for(int j = 0; j < n; j++)
-{
-if(a[i].rno > a[j].rno)
-{
-student temp = a[j];
-a[j] = a[i];
-a[i] = temp;
-}
-}
-}   	
-    	int mid, low = 0, high = n-1;
-    	bool found = 0;
-    	while(low <= high)
-    	{
-    	   mid = (low+high) / 2;
-    	   
-    	   if(a[mid].rno == r)
-    	   {
-    	     found = 1;
-    	     cout <<"\nRoll No. " << r << " is present in training program.";
-    	     
-    	     break;
-    	   }
-    	   
-    	   else if(a[mid].rno > r)
-    	   {
-    	    high = mid-1;
-    	   }
-    	   
-    	   else
-    	   {
-    	    low = mid+1;
-    	   }
-    	 }
-    	 
-    	 if(!found)
-    	 {
-    	  cout << "\nRoll No. " << r << " is not present in training program. ";;
-    	 }  	 
-    	 void student::Feedback accept()
-    	 cout<<"Was the session helpful to you?";
-    	 cout<<"1. Good\n2. Satisfactory\n 3 
- }
+
 
 int main()
 {
-    int ch=0;
-    while(true)
-    {
-    cout << "\nMenu.\n1.Accept student record.\n2.Display record.\n3.Find rollno. (Linear Search).\n4.Find rollno.  (Binary Search).";
-        cout << "\nEnter your choice: ";
-        cin >> ch;
+    
+        int rr, img,c;
 
-        switch(ch)
+        cout << "Enter the Real and Imaginary part of the first number: ";
+        cin >> rr >> img;
+        Complex c1(rr, img);
+
+        cout << "Enter the Real and Imaginary part of the second number: ";
+        cin >> rr >> img;
+        Complex c2(rr, img);
+
+        Complex c3;
+      
+   
+
+    do {
+        cout << "Operations:" << endl;
+        cout << "1. Add" << endl;
+        cout << "2. Subtract" << endl;
+        cout << "3. Multiply" << endl;   
+        cout << "4. Divide" << endl;
+        cout << "5. Exit " << endl;
+        cout << "Enter your choice : ";
+        cin >> c;
+
+        switch (c)
         {
-        case 1:
-            cout << "Enter the number of records you want to create: ";
-            cin >> n;
-            for(i = 0; i < n; i++)
-            {
-               a[i].accept();
-            }
-            break;
-        case 2:
-            cout << "\nName\tRollNo\tAddress";
-            for(i = 0; i < n; i++)
-            {
-                a[i].display();
-            }
-            break;
+            case 1:
+                c3 = c1 + c2;
+                c3.display();
+                break;
+            case 2:
+                c3 = c1 - c2;
+                c3.display();
+                break;
+            case 3:
+                c3 = c1 * c2;
+                c3.display(); 
+                break;
+            case 4:
+                c3 = c1 / c2;
+                c3.display(); 
+                break; 
             
-        case 3:
-        	a[0].Lsearch();
-        	break;
-        	
-        case 4:
-        	a[i].Bsearch();
-        	break;
-            
-            }
-
-        cout << "\n\nDo you want to continue (1/0): ";
-        cin >> ch;
-        if (ch == 0) break;
-    }
+            case 5:
+                cout << "Program Exited!" << endl;
+                break;
+            default:
+                cout << "Invalid operation. Please try again." << endl;
+        }
+    } while (c != 5);
 
     return 0;
 }
